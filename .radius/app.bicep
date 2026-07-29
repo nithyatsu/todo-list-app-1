@@ -11,7 +11,7 @@ param registryUsername string
 param registryPassword string
 
 resource todoApp 'Radius.Core/applications@2025-08-01-preview' = {
-  name: 'todo-list-app-2'
+  name: 'todo-list-app'
   properties: {
     environment: environment
   }
@@ -47,7 +47,7 @@ resource registryCreds 'Radius.Security/secrets@2025-08-01-preview' = {
 }
 
 resource todoImage 'Radius.Compute/containerImages@2025-08-01-preview' = {
-  name: 'todo-list-app-2-image'
+  name: 'todo-list-app-image'
   properties: {
     environment: environment
     application: todoApp.id
@@ -65,7 +65,7 @@ resource todoImage 'Radius.Compute/containerImages@2025-08-01-preview' = {
 }
 
 resource todoContainer 'Radius.Compute/containers@2025-08-01-preview' = {
-  name: 'todo-list-app-2'
+  name: 'todo-list-app'
   properties: {
     environment: environment
     application: todoApp.id
