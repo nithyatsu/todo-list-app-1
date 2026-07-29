@@ -16,8 +16,8 @@
       ],
       "diffHash": "sha256:a95d83a5d51706f8982a1535823e387bb115d575fc9d54300820a33f7c959bef",
       "iconHash": "88900dfb4dc01d836935bf51fe93d822733eb2656431294784a082b40cd568a9",
-      "id": "/planes/radius/local/resourcegroups/default/providers/Radius.Data/mySqlDatabases/mysql",
-      "name": "mysql",
+      "id": "/planes/radius/local/resourcegroups/default/providers/Radius.Data/mySqlDatabases/mysql30",
+      "name": "mysql30",
       "outputResources": [],
       "properties": {
         "application": "[reference('todoApp').id]",
@@ -66,11 +66,11 @@
         },
         {
           "direction": "Outbound",
-          "id": "/planes/radius/local/resourcegroups/default/providers/Radius.Data/mySqlDatabases/mysql",
+          "id": "/planes/radius/local/resourcegroups/default/providers/Radius.Data/mySqlDatabases/mysql30",
           "kind": "Dependency"
         }
       ],
-      "diffHash": "sha256:8fbdbfb803ece8489559916ffa531537652e432812e8afaa717258ca8e0ac202",
+      "diffHash": "sha256:6296960946b9c2725fcaae3ee35e5cd41442074b6951e549ccd9267bbda7dde5",
       "iconHash": "b15466644c2efcfae34f31c914d0926d10ac1fe641d730f5b0f25955f2b9b5a9",
       "id": "/planes/radius/local/resourcegroups/default/providers/Radius.Compute/containers/todo-list-app",
       "name": "todo-list-app",
