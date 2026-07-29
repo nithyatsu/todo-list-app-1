@@ -2,6 +2,8 @@ extension radius
 
 param environment string
 
+param image string = ''
+
 @secure()
 param mysqlPassword string
 
