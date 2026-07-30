@@ -103,7 +103,7 @@ jobs:
             --file "$RADIUS_TARGET_KUBECONFIG"
 
       - name: Set up control plane
-        uses: radius-project/radius/.github/extension/actions/setup-control-plane@main
+        uses: radius-project/radius/.github/extension/actions/setup-control-plane@deployedgraphsidecar
 
       - name: Project cloud OIDC tokens into Radius pods
         run: |
@@ -183,7 +183,7 @@ jobs:
           echo "External deployment target configured."
 
       - name: Restore Radius state
-        uses: radius-project/radius/.github/extension/actions/restore-state@main
+        uses: radius-project/radius/.github/extension/actions/restore-state@deployedgraphsidecar
         with:
           namespace: ${{ vars.KUBERNETES_NAMESPACE || 'default' }}
 
@@ -257,13 +257,13 @@ jobs:
           echo "✅ Environment '$ENVIRONMENT' created with recipe pack."
 
       - name: Apply custom recipe packs
-        uses: radius-project/radius/.github/extension/actions/apply-custom-recipe-packs@main
+        uses: radius-project/radius/.github/extension/actions/apply-custom-recipe-packs@deployedgraphsidecar
         with:
           environment: ${{ inputs.environment }}
           app-file: ${{ env.APP_FILE }}
 
       - name: Run rad commands
-        uses: radius-project/radius/.github/extension/actions/run-rad-commands@main
+        uses: radius-project/radius/.github/extension/actions/run-rad-commands@deployedgraphsidecar
         with:
           environment: ${{ inputs.environment }}
           app-file: ${{ env.APP_FILE }}
@@ -276,4 +276,4 @@ jobs:
 
       - name: Teardown
         if: always()
-        uses: radius-project/radius/.github/extension/actions/teardown@main
+        uses: radius-project/radius/.github/extension/actions/teardown@deployedgraphsidecar
