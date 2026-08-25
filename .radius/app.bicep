@@ -7,12 +7,13 @@ param environment string
 @secure()
 param mysqlPassword string
 
-@description('Username for the OCI registry the containerImages recipe pushes to (the GitHub actor for ghcr.io).')
-param registryUsername string
-
-@description('Password/token for the OCI registry the containerImages recipe pushes to (a GitHub token with write:packages for ghcr.io).')
+@description('Password/token for the OCI registry the containerImages recipe pushes to.')
 @secure()
 param registryPassword string
+
+@description('Username for the OCI registry the containerImages recipe pushes to.')
+@secure()
+param registryUsername string
 
 resource todoApp 'Radius.Core/applications@2025-08-01-preview' = {
   name: 'todo-list-app-1'
@@ -34,20 +35,17 @@ resource mysqlDb 'Radius.Data/mySqlDatabases@2025-08-01-preview' = {
   }
 }
 
-// Registry push credentials for the containerImages recipe. The name must be
-// exactly 'radius-ghcr-registry-creds' to match the recipe pack's
-// containerImagesRegistrySecretName.
 resource registryCreds 'Radius.Security/secrets@2025-08-01-preview' = {
   name: 'radius-ghcr-registry-creds'
   properties: {
     environment: environment
     application: todoApp.id
     data: {
-      username: {
-        value: registryUsername
-      }
       password: {
         value: registryPassword
+      }
+      username: {
+        value: registryUsername
       }
     }
   }
@@ -60,9 +58,7 @@ resource todoImage 'Radius.Compute/containerImages@2025-08-01-preview' = {
     application: todoApp.id
     codeReference: 'Dockerfile'
     build: {
-      source: 'git::https://github.com/nithyatsu/todo-list-app-1.git?ref=b400851e8495896f9d69b5c724ffac46c703f5f9'
-      // The Dockerfile has no $BUILDPLATFORM/TARGETARCH cross-compilation support
-      // and runs a native yarn install, so build only the target runtime platform.
+      source: 'git::https://github.com/nithyatsu/todo-list-app-1.git?ref=eec1fc12d0966700d9e2548c2587d452b7c87afd'
       platforms: [
         'linux/amd64'
       ]
@@ -82,23 +78,23 @@ resource todoContainer 'Radius.Compute/containers@2025-08-01-preview' = {
     containers: {
       todo: {
         image: todoImage.properties.imageReference
-        ports: {
-          web: {
-            containerPort: 3000
-          }
-        }
         env: {
+          MYSQL_DB: {
+            value: 'todos'
+          }
           MYSQL_HOST: {
             value: mysqlDb.properties.host
-          }
-          MYSQL_USER: {
-            value: 'myadmin'
           }
           MYSQL_PASSWORD: {
             value: mysqlPassword
           }
-          MYSQL_DB: {
-            value: 'todos'
+          MYSQL_USER: {
+            value: 'myadmin'
+          }
+        }
+        ports: {
+          web: {
+            containerPort: 3000
           }
         }
       }
